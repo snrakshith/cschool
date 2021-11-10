@@ -1,26 +1,19 @@
 # Web App for K12 sector in India
 
-[k12](http://www.google.com)
 
-![](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)
 
-```javascript
-console.log("Hi");
-```
+## Technical Features of cSchool
 
-```js
-console.log("Hi");
-```
+- PWA
+- CI-CD
+- Deployment
+- Testing : TDD
+- Documentation
+- Custom Hooks
+- React Router
+- Redux-Toolkit
+- Styled Components
+- Authentication using JWT
+- Mobile First Responsive Design
 
-```python
-print s
-```
 
-> Hi
-
-<!-- Line -->
-
----
-
-_Hi_
-**Hi**
