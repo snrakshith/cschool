@@ -1,6 +1,9 @@
 # Web App for K12 sector in India
 
-
+```
+1. client
+2. server
+```
 
 ## Technical Features of cSchool
 
@@ -15,5 +18,3 @@
 - Styled Components
 - Authentication using JWT
 - Mobile First Responsive Design
-
-
