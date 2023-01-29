@@ -54,3 +54,127 @@ export const school = [
     school_status: true, // School status - if active true or else false
   },
 ];
+
+export const basicInfo = [
+  {
+    time_table: "",
+    school_code: "",
+    name: "",
+    logo: "",
+    social_media_links: "",
+    address: "",
+    contact_details: "",
+    establishment_year: "",
+  },
+];
+
+export const courses_offered = [
+  {
+    board_name: "",
+    type: "Science",
+    course: "PCMC" || "PCMB",
+  },
+  {
+    board_name: "",
+    type: "Commerce",
+    course: "EBAC" || "EBAS",
+  },
+  {
+    board_name: "",
+    type: "Language",
+    course: "Hindi" || "English",
+  },
+];
+
+// Campus Infrastructure and Faculties
+const campus_overview = {
+  transportation: true,
+  drinking_water: true,
+  cctv_surveillance: false,
+  fire_safety_code: true,
+  inhouse: {
+    doctor_or_medical_practitioner: false,
+    career_counsler: false,
+    internet_enabled_campus: false,
+    ac_enabled_classrooms: false,
+  },
+  sports: {
+    indoor: false,
+    outdoor: false,
+    swimming_pool: false,
+    amphitheatre: false,
+  },
+  smart_classes: false,
+  dining_hall_or_food_court_or_cafeteria: true,
+  book_store: true,
+  laundry_service: false,
+  campus_elections: true,
+};
+
+const glance_view = {
+  popular_alumnis: [
+    {
+      name: "Rajinikanth",
+      academic_profile: [
+        {
+          standard: 5,
+          section: "B",
+          roll_number: 51,
+          academic_year: {
+            from_date: "29-01-1997",
+            to_date: "5-02-1998",
+          },
+        },
+      ],
+    },
+  ],
+  recent_achievements: [
+    {
+      event_info: {
+        name: "State Chess Compainship",
+        date: "",
+        participants: [{}],
+        status: "Winner",
+        assets: {
+          images: [],
+          videos: [],
+        },
+      },
+      statement_after_achievement: [
+        {
+          achiever_name: "Ramesh",
+          role: "teacher",
+          statement: "",
+        },
+      ],
+    },
+  ],
+  reviews: [
+    {
+      username: "Rakshith",
+      medium: "google",
+      rating: 5,
+      comment: "Good school",
+      date: "06-02-2005",
+    },
+  ],
+  brochure: [
+    {
+      topic: "Hostal life",
+      published_date: "06-05-2021",
+      link: "https://www.dummy.com/",
+    },
+  ],
+  foundation_statement: [
+    {
+      role: "Principal",
+      for_academic_year: "2021-2022",
+      published_date: "06-07-2021",
+      link: "https://www.dummy.com/",
+    },
+  ],
+  ratios: {
+    teacher_to_students: "1:30",
+    acceptency: "5%",
+  },
+};
