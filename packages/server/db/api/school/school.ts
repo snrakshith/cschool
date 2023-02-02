@@ -31,12 +31,12 @@ export const school = [
       },
       {
         board: "cbse",
-        eligebality_critery: "above 10 years",
+        eligibality_critery: "above 10 years",
         class_from: "1 to 10",
       },
       {
         board: "state_board",
-        eligebality_critery: "above 10 years",
+        eligibality_critery: "above 10 years",
         class_from: "1 to 10",
       },
     ],
