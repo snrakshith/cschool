@@ -1,29 +1,8 @@
-const School = require("../models/School.model");
-const { autoSchoolId } = require("../utils/auto_generated");
-const geocoder = require("../utils/geocoder");
+const CMS = require("../models/CMS.model");
 
-// get list of active schools
-
-// basic info
-// courses_offered
-
-/**
- *  @access Public
- *  @description details by school id
- */
-
-// getAllSchools
-
-// /api/v1/school/all
-exports.getAllSchools = async (req, res, next) => {
+// /get-offerings
+exports.getAllOfferings = async (req, res, next) => {
   try {
-    const allSchools = await School.find();
-    const totalSchools = await School.count();
-    return res?.status(200).json({
-      status: true,
-      data: allSchools,
-      totalSchools,
-    });
   } catch (error) {
     console.error(error);
     return res?.status(404).json({
@@ -32,25 +11,9 @@ exports.getAllSchools = async (req, res, next) => {
     });
   }
 };
-exports.getAllAuthors = async (req, res, next) => {
-  const { page_limit, page } = req.query;
-  try {
-    console.log(req.query);
-    const authors = await Author.find()
-      .skip(page * page_limit)
-      .limit(page_limit)
-      .sort({ author_name: -1 });
-    const totalAuthors = await Author.count();
-    return res
-      .status(200)
-      .json({ status: true, results: totalAuthors, data: authors });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ status: false, message: error.message });
-  }
-};
 
-exports.onboardNewSchool = async (req, res, next) => {
+// /create-offerings
+exports.createNewOfferings = async (req, res, next) => {
   const { name, email, phone_number, languages } = req.body;
   // const { logo } = req.file;
   // const imageMimetype = req.file.mimetype.split("/");
@@ -137,30 +100,4 @@ exports.onboardNewSchool = async (req, res, next) => {
     console.log(error);
     return res.status(500).json({ status: false, message: error.message });
   }
-};
-// @desc      Get bootcamps within a radius
-// @route     GET /api/v1/bootcamps/radius/:zipcode/:distance
-// @access    Private
-exports.getSchoolsInRadius = async (req, res, next) => {
-  const { pincode, distance } = req.params;
-
-  // Get lat/lng from geocoder
-  const loc = await geocoder.geocode(pincode);
-  const lat = loc[0].latitude;
-  const lng = loc[0].longitude;
-
-  // Calc radius using radians
-  // Divide dist by radius of Earth
-  // Earth Radius = 3,963 mi / 6,378 km
-  const radius = distance / 3963;
-
-  const schools = await School.find({
-    location: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
-  });
-
-  res.status(200).json({
-    success: true,
-    count: schools.length,
-    data: schools,
-  });
 };

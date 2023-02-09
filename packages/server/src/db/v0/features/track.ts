@@ -27,10 +27,3 @@ const track_event = [
     ],
   },
 ];
-
-const bookmarks = [
-  {
-    favorite_school: [{}],
-    favorite_college: [{}],
-  },
-];

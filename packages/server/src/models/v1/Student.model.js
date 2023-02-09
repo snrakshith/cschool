@@ -1,7 +1,28 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const StudentSchema = new Schema({});
+const StudentSchema = new Schema({
+  tasks_assigned: {
+    tasks: [
+      // Tasks Obj
+      {
+        _id: false,
+        task_name: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Task",
+        },
+      },
+    ],
+    details: {
+      total_tasks: {
+        type: Number,
+      },
+      cancelled_tasks: {
+        type: Number,
+      },
+    },
+  },
+});
 let student = {
   name: "",
   school_id: "",

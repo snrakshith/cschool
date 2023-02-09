@@ -14,8 +14,9 @@ mongoDB();
 // Import Route Files
 
 const schoolRoute = require("./routes/school.routes");
+const homepageRoute = require("./routes/homepage.routes");
 
-// app.use("/api/v1/public", publicRoute);
+app.use("/api/v1/home", homepageRoute);
 app.use("/api/v1/school", schoolRoute);
 
 app.get("/api/test", (req, res) => {
