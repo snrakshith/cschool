@@ -6,10 +6,27 @@
     "type": "git",
     "url": "https://github.com/snrakshith"
   },
+  "scripts": {
+    "pack-gen": "plop"
+  },
   "keywords": [
     "Backend",
     "api"
   ],
   "author": "Rakshith",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "plop": "^3.1.2"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.26.0",
+    "@commitlint/cli": "^17.4.2",
+    "@commitlint/config-conventional": "^17.4.2",
+    "eslint": "^8.34.0",
+    "husky": "^8.0.3",
+    "lerna": "^6.4.1",
+    "lint-staged": "^13.1.1",
+    "prettier": "^2.8.4",
+    "rimraf": "^4.1.2"
+  }
 }

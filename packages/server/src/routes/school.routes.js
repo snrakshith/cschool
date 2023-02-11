@@ -5,7 +5,7 @@ const {
   getSchoolsById,
   getSchoolsInRadius,
 } = require("../controllers/school.controller");
-// const upload = require("../middleware/upload");
+// const upload = require("../middlewares/upload");
 const upload = require("../../upload");
 
 const router = express.Router();

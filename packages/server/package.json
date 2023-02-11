@@ -6,7 +6,10 @@
   "scripts": {
     "test": "jest",
     "start": "node server.js",
-    "local": "set NODE_ENV=local&& nodemon ./src/server.js"
+    "local": "set NODE_ENV=local&& nodemon ./src/server.js",
+    "check-deps":"ncu",
+    // "lint":"",
+    // "format":"",
   },
   "keywords": [
     "Node Projects",
