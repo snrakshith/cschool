@@ -1,13 +1,32 @@
 {
-  "name": "cschool",
+  "name": "@cschool/root",
   "version": "0.0.1",
+  "private": true,
   "description": "A repo for cschool",
   "repository": {
     "type": "git",
     "url": "https://github.com/snrakshith"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "pack-gen": "plop"
+    "pack-gen": "plop",
+    "prepare": "husky install",
+    "build": "lerna run build",
+    "watch": "lerna run watch --parallel",
+    "bootstrap": "lerna bootstrap",
+    "prepublish": "lerna run build",
+    "lint": "eslint packages",
+    "test": "jest",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "changeset publish",
+    "none": "",
+    "test-changes": "lerna run test --since HEAD~1",
+    "api": "lerna run local --scope @cschool/server",
+    "web": "lerna run start --scope @cschool/client --stream",
+    "exec": "lerna exec"
   },
   "keywords": [
     "Backend",

@@ -1,5 +1,5 @@
 {
-  "name": "cschool-api",
+  "name": "@cschool/server",
   "version": "0.0.5",
   "description": "A Basic Backend",
   "main": "server.js",
@@ -7,9 +7,7 @@
     "test": "jest",
     "start": "node server.js",
     "local": "set NODE_ENV=local&& nodemon ./src/server.js",
-    "check-deps":"ncu",
-    // "lint":"",
-    // "format":"",
+    "check-deps":"ncu"
   },
   "keywords": [
     "Node Projects",

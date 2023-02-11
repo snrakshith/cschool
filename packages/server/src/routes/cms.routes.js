@@ -10,4 +10,4 @@ router.get("/get-offerings", getAllOfferings);
 
 router.post("/create-offerings", createNewOfferings);
 
-exports.module = router;
+module.exports = router;
