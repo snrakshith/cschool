@@ -1,0 +1,40 @@
+{{!-- const CMS = require("../models/CMS.model"); --}}
+const {{name}} = require("../models/{{name}}.model");
+
+exports.getAll{{name}} = async (req, res, next) => {
+  try {
+  } catch (error) {
+    console.error(error);
+    return res?.status(404).json({
+      message: "Failed to get data",
+      status: false,
+    });
+  }
+};
+
+exports.create{{name}} = async (req, res, next) => {
+  const { name } = req.body;
+
+  if (!name) {
+    return res
+      .status(400)
+      .json({ status: false, message: "{{name}} is missing" });
+  }
+
+  try {
+    const {{name}}Data = {
+    
+    };
+    {{!-- const data = await School.create(schoolData); --}}
+    const data = await {{name}}.create({{name}}Data);
+    await data.save();
+    return res.status(201).json({
+      status: false,
+      message: "Successfully Onboarded",
+      data,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ status: false, message: error.message });
+  }
+};

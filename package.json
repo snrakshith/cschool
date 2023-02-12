@@ -1,15 +1,51 @@
 {
-  "name": "cschool",
+  "name": "@cschool/root",
   "version": "0.0.1",
+  "private": true,
   "description": "A repo for cschool",
   "repository": {
     "type": "git",
     "url": "https://github.com/snrakshith"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "pack-gen": "plop",
+    "prepare": "husky install",
+    "build": "lerna run build",
+    "watch": "lerna run watch --parallel",
+    "bootstrap": "lerna bootstrap",
+    "prepublish": "lerna run build",
+    "lint": "eslint packages",
+    "test": "jest",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "changeset publish",
+    "none": "",
+    "test-changes": "lerna run test --since HEAD~1",
+    "api": "lerna run local --scope @cschool/server",
+    "web": "lerna run start --scope @cschool/client --stream",
+    "exec": "lerna exec"
   },
   "keywords": [
     "Backend",
     "api"
   ],
   "author": "Rakshith",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "plop": "^3.1.2"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.26.0",
+    "@commitlint/cli": "^17.4.2",
+    "@commitlint/config-conventional": "^17.4.2",
+    "eslint": "^8.34.0",
+    "husky": "^8.0.3",
+    "lerna": "^6.4.1",
+    "lint-staged": "^13.1.1",
+    "prettier": "^2.8.4",
+    "rimraf": "^4.1.2"
+  }
 }

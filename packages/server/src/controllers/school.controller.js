@@ -1,6 +1,6 @@
 const School = require("../models/School.model");
 const { autoSchoolId } = require("../utils/auto_generated");
-const geocoder = require("../utils/geocoder");
+// const geocoder = require("../utils/geocoder");
 
 // get list of active schools
 
