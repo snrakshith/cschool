@@ -24,7 +24,7 @@
     "release": "changeset publish",
     "none": "",
     "test-changes": "lerna run test --since HEAD~1",
-    "api": "lerna run local --scope @cschool/server",
+    "api": "set NODE_ENV=local&&lerna run local --scope @cschool/server",
     "web": "lerna run start --scope @cschool/client --stream",
     "exec": "lerna exec"
   },

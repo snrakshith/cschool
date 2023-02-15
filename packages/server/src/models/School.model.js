@@ -26,6 +26,18 @@ const SchoolSchema = new Schema(
       trim: true,
       required: [true, "Name is required"],
     },
+    moto: {
+      type: String,
+      required: true,
+    },
+    website: {
+      type: String,
+      required: [true, "Website is required"],
+    },
+    code: {
+      type: String,
+      required: [true, "School code is required"],
+    },
     school_id: String,
     phone_number: {
       type: String,
@@ -33,10 +45,14 @@ const SchoolSchema = new Schema(
       maxlength: [10, "Cannot be excede more than 10 character"],
       required: [true, "phone is required"],
     },
+    number: {
+      type: [Number],
+      required: [true, "phone is required"],
+    },
     email: {
       type: String,
       trim: true,
-      unique: [true, "Must be unique"],
+      // unique: [true, "Must be unique"],
       required: [true, "email is required"],
     },
     address: {
@@ -62,6 +78,22 @@ const SchoolSchema = new Schema(
         "Other",
       ],
     },
+    // Array of objects
+    labs: [
+      {
+        _id: false,
+        lab_name: {
+          type: String,
+          enum: ["Physics lab"],
+        },
+      },
+    ],
+    criterias: [
+      {
+        criteriaName: { type: String },
+        criteriaStatus: { type: Boolean, default: true },
+      },
+    ],
     specialization: [
       {
         _id: false,
@@ -77,6 +109,10 @@ const SchoolSchema = new Schema(
             "Dental",
             "Eye",
           ],
+        },
+        languageName: {
+          type: String,
+          enum: ["English", "Kannada"],
         },
       },
     ],
@@ -97,7 +133,6 @@ const SchoolSchema = new Schema(
       required: [true, "Please add the avaiable faliclites"],
       enum: ["library", "food_court", "washroom"],
     },
-    // courses_offered: [
     courses_offered: {
       board: {
         type: String,
@@ -116,7 +151,6 @@ const SchoolSchema = new Schema(
         max: 10,
       },
     },
-    // ],
     scholarship_for_students: {
       //  By default it is false
       type: Boolean,

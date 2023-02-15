@@ -7,18 +7,9 @@ const path = require("path");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
-// import swaggerUI from "swagger-ui-express";
-// import swaggerJsDoc from "swagger-jsdoc";
-// import { options } from "./swaggerOptions";
-
-const swaggerUI = require("swagger-ui-express");
-const swaggerJSDoc = require("swagger-jsdoc");
-
-const options = require("./configs/swaggerOptions");
-const specs = swaggerJSDoc(options);
-
 const mongoDB = require("./services/mongoDB");
 const corsOptions = require("./configs/cors");
+const swaggerDocs = require("./utils/swagger");
 
 dotenv.config({
   // path: path.resolve(`./environments/.env.${process.env.NODE_ENV}`),
@@ -27,6 +18,7 @@ dotenv.config({
 console.log(process.env.PORT);
 
 const app = express();
+
 // Accept Json to parse
 app.use(express.json());
 
@@ -53,21 +45,23 @@ app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/cms", cmsRoute);
 app.use("/api/v1/school", schoolRoute);
 
-// Test route
+// run swagger func
+swaggerDocs(app, port);
 
+// Healthcheck route
+
+/**
+ * @openapi
+ * /healthcheck:
+ *   get:
+ *     summary: Retrieve a list of JSONPlaceholder users
+ *     description: Retrieve a list of users from JSONPlaceholder. Can be used to populate a list of fake users when prototyping or testing an API.
+ */
 app.get("/healthcheck", (req, res) => {
   res.status(200).json({
-    service_name: "test",
+    service_name: "cschool backend api",
     version: "v1",
   });
-});
-
-app.use("/docs", swaggerUI.serve, swaggerUI.setup(specs));
-
-// OpenAPI Json
-app.get("/api-docs.json", (req, res) => {
-  res.setHeader("Content-Type", "application/json");
-  res.send(specs);
 });
 
 // Catch all route if no route matches
@@ -75,6 +69,12 @@ app.use(async (req, res, next) => {
   next(createError.NotFound());
 });
 
-mongoose.connection.once("open", () => {
-  app.listen(port, () => console.log(`Listening on port ${port}..`));
+// mongoose.connection.once("open", () => {
+//   app.listen(port, () => console.log(`Listening on port ${port}..`));
+//   // run swagger func
+//   swaggerDocs(app, port);
+// });
+
+app.listen(port, () => {
+  console.log(`Listening on port ${port}..`);
 });

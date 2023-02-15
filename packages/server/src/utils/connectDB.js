@@ -1,5 +1,12 @@
-// Third Party Services goes in here..
+// Experimental
+
 const mongoose = require("mongoose");
+const path = require("path");
+const dotenv = require("dotenv");
+
+dotenv.config({
+  path: path.resolve(`./environments/.env.${process.env.NODE_ENV}`),
+});
 
 const mongoOptions = {
   dbName: process.env.DB_NAME,
@@ -9,8 +16,7 @@ const mongoOptions = {
 
 const mongoDB = async () => {
   try {
-    // await mongoose.createConnection(process.env.MONGODB_URI, mongoOptions);
-    await mongoose.connect("mongodb://127.0.0.1:27017/", mongoOptions);
+    await mongoose.connect(process.env.MONGODB_URI, mongoOptions);
     console.log("Connected to MongoDB..");
   } catch (err) {
     console.log("Could not connect to MongoDB...", err);
@@ -18,7 +24,7 @@ const mongoDB = async () => {
 };
 
 mongoose.connection.on("connected", () => {
-  console.log(`Mongoose is connected to DB`);
+  console.log(`Mongoose is conneected to DB`);
 });
 
 mongoose.connection.on("error", (error) => {
@@ -26,7 +32,7 @@ mongoose.connection.on("error", (error) => {
 });
 
 mongoose.connection.on("disconnected", () => {
-  console.log(`Mongoose is disconnected to DB`);
+  console.log(`Mongoose is disconneected to DB`);
 });
 
 process.on("SIGINT", async () => {
