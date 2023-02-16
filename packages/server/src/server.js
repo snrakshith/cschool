@@ -6,11 +6,6 @@ const createError = require("http-errors");
 const path = require("path");
 const cors = require("cors");
 const dotenv = require("dotenv");
-
-// import swaggerUI from "swagger-ui-express";
-// import swaggerJsDoc from "swagger-jsdoc";
-// import { options } from "./swaggerOptions";
-
 const swaggerUI = require("swagger-ui-express");
 const swaggerJSDoc = require("swagger-jsdoc");
 
@@ -21,10 +16,9 @@ const mongoDB = require("./services/mongoDB");
 const corsOptions = require("./configs/cors");
 
 dotenv.config({
-  // path: path.resolve(`./environments/.env.${process.env.NODE_ENV}`),
-  path: path.resolve(`./environments/.env.local`),
+  path: path.resolve(`./environments/.env.${process.env.NODE_ENV}`),
 });
-console.log(process.env.PORT);
+console.log(process.env.MONGODB_URI);
 
 const app = express();
 // Accept Json to parse
@@ -70,9 +64,16 @@ app.get("/api-docs.json", (req, res) => {
   res.send(specs);
 });
 
-// Catch all route if no route matches
 app.use(async (req, res, next) => {
-  next(createError.NotFound());
+  next(createError.NotFound("Route not found"));
+});
+
+// Catch all route if no route matches
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).json({
+    status: false,
+    message: err.message,
+  });
 });
 
 mongoose.connection.once("open", () => {

@@ -8,6 +8,8 @@ const {
 } = require("../controllers/school.controller");
 const upload = require("../middlewares/upload");
 
+const { verifyAccessToken } = require("../utils/jwt");
+
 /**
  * @swagger
  * components:
@@ -69,7 +71,7 @@ router
    *      200:
    *        description: App is up and running
    */
-  .get("/all", getAllSchools);
+  .get("/all", verifyAccessToken, getAllSchools);
 
 // router.route("/:schoolId").get(getSchoolById);
 

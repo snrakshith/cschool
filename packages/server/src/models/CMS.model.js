@@ -16,6 +16,10 @@ const CMSSchema = new Schema(
         type: Number,
         required: true,
       },
+      go_to: {
+        type: String,
+        required: true,
+      },
       assets: {
         images: {
           type: String,
