@@ -65,6 +65,12 @@ const SchoolSchema = new Schema(
       type: String,
       default: "no-logo.png",
     },
+    plan: {
+      type: String,
+      required: true,
+      default: "STARTER",
+      enum: ["STARTER", "PRO", "ENTERPRISE"],
+    },
     careers: {
       // Array of strings
       type: [String],
@@ -211,6 +217,10 @@ const SchoolSchema = new Schema(
         type: Number,
         // index: "2dsphere",
       },
+    },
+    brochure_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Brochure",
     },
   },
   {

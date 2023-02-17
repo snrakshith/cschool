@@ -1,4 +1,4 @@
-Expense tracker
+Cschool tracker
 	- Resusable Components
 	- Custom Hooks
 
@@ -9,5 +9,5 @@ CLEAN Arch
 
 Component
  - contained
- - outlined 
+ - outlined
  - eleveted

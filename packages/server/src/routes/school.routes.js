@@ -71,7 +71,8 @@ router
    *      200:
    *        description: App is up and running
    */
-  .get("/all", verifyAccessToken, getAllSchools);
+  // .get("/all", verifyAccessToken, getAllSchools);
+  .get("/all", getAllSchools);
 
 // router.route("/:schoolId").get(getSchoolById);
 

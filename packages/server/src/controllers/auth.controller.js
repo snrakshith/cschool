@@ -1,14 +1,14 @@
 const User = require("../models/User.model");
 const createError = require("http-errors");
 const { authSchema } = require("../utils/validations_schema");
-const { signAccessToken } = require("../utils/jwt");
+const {
+  signAccessToken,
+  signRefreshToken,
+  verifyRefreshToken,
+} = require("../utils/jwt");
 
 exports.registerUser = async (req, res, next) => {
   try {
-    // const { email, password } = req.body;
-
-    // if (!email || !password) throw createError.BadRequest();
-
     const result = await authSchema.validateAsync(req.body);
 
     const userExist = await User.findOne({ email: result.email });
@@ -19,7 +19,11 @@ exports.registerUser = async (req, res, next) => {
     const user = new User(result);
     const savedUser = await user.save();
 
-    res.status(201).json({ data: savedUser });
+    // Generate the new Access and Refresh token return it back to the user
+    const accessToken = await signAccessToken(user.id);
+    const refreshToken = await signRefreshToken(user.id);
+
+    res.status(201).json({ data: savedUser, accessToken, refreshToken });
   } catch (error) {
     if (error.isJoi === true) error.status = 422;
     next(error);
@@ -39,11 +43,11 @@ exports.loginUser = async (req, res, next) => {
     if (!isMatch) throw createError.Unauthorized("Username/password not valid");
 
     const accessToken = await signAccessToken(user.id);
-
+    const refreshToken = await signRefreshToken(user.id);
     return res.status(201).json({
       status: true,
       message: "logged in..",
-      data: { access_token: accessToken },
+      data: { accessToken, refreshToken },
     });
   } catch (error) {
     if (error.isJoi === true) error.status = 422;
@@ -54,28 +58,23 @@ exports.loginUser = async (req, res, next) => {
 };
 
 exports.refreshToken = async (req, res, next) => {
-  const { email, password } = req.body;
-
-  if (!email) {
-    return res.status(400).json({ status: false, message: "email is missing" });
-  }
-
-  if (!password) {
-    return res
-      .status(400)
-      .json({ status: false, message: "School name is missing" });
-  }
-
   try {
-    console.log(req.body);
+    // check for refresh token in the body
+    const { refreshToken } = req.body;
+    if (!refreshToken) throw createError.BadRequest();
 
-    const data = await School.create(schoolData);
-    console.log(data);
-    await data.save();
+    const userId = await verifyRefreshToken(refreshToken);
+
+    // Generate the new Access and Refresh token return it back to the user
+    const accessToken = await signAccessToken(userId);
+    const refToken = await signRefreshToken(userId);
+
     return res.status(201).json({
-      status: false,
-      message: "Successfully Onboarded",
-      data,
+      status: true,
+      data: {
+        accessToken,
+        refToken,
+      },
     });
   } catch (error) {
     console.log(error);

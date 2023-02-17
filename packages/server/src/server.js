@@ -40,12 +40,14 @@ mongoDB();
 
 const authRoute = require("./routes/auth.routes");
 const schoolRoute = require("./routes/school.routes");
-const cmsRoute = require("./routes/cms.routes");
+const homepageRoute = require("./routes/homepage.routes");
+const brochureRoute = require("./routes/glance/brochure.routes");
 
 // API Routes
 app.use("/api/v1/auth", authRoute);
-app.use("/api/v1/cms", cmsRoute);
+app.use("/api/v1/homepage", homepageRoute);
 app.use("/api/v1/school", schoolRoute);
+app.use("/api/v1/brochure", brochureRoute);
 
 // Test route
 

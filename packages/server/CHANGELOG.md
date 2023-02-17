@@ -1,5 +1,11 @@
 # @cschool/server
 
+## 0.2.1
+
+### Patch Changes
+
+- add auth middleware
+
 ## 0.2.0
 
 ### Minor Changes
