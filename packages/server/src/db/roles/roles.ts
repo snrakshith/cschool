@@ -6,6 +6,7 @@
  */
 
 const SA = "SUPER_ADMIN";
+const EDITOR = "EDITOR";
 
 // roles for cschool-360 ( csh-360 ) portal & app
 

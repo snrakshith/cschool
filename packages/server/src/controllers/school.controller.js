@@ -61,37 +61,27 @@ exports.getAllAuthors = async (req, res, next) => {
 };
 
 exports.onboardNewSchool = async (req, res, next) => {
-  const {
-    name,
-    email,
-    phone_number,
-    languages,
-    teacher_strength,
-    number_of_students,
-    moto,
-    code,
-    website,
-    labs,
-  } = req.body;
-
-  const missingList = [];
-
-  if (!name) {
-    missingList.push("name");
-  }
-  if (!phone_number) {
-    missingList.push("phone_number");
-  }
-  if (!email) {
-    missingList.push("email");
-  }
-  if (missingList.length > 0) {
-    return res
-      .status(400)
-      .json({ status: false, message: `${missingList} is missing` });
-  }
-
   try {
+    const { name, email, phone_number, languages, moto, code, website, labs } =
+      req.body;
+
+    const missingList = [];
+
+    if (!name) {
+      missingList.push("name");
+    }
+    if (!phone_number) {
+      missingList.push("phone_number");
+    }
+    if (!email) {
+      missingList.push("email");
+    }
+    if (missingList.length > 0) {
+      return res
+        .status(400)
+        .json({ status: false, message: `${missingList} is missing` });
+    }
+
     const facilities = [];
     const facility = [];
 

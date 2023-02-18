@@ -2,9 +2,14 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const RatiosSchema = new Schema({
-  school_id: {
-    type: Schema.Types.ObjectId,
+  school: {
+    type: mongoose.Schema.Types.ObjectId,
     ref: "School",
+    required: true,
+  },
+  number_of_students: {
+    type: Number,
+    required: [true, "Number of students are required"],
   },
   teacher_to_students: {
     type: String,

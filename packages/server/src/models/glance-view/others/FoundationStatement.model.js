@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const FoundationStatementSchema = new Schema({
+  school: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "School",
+    required: true,
+  },
   role: {
     type: String,
     required: true,

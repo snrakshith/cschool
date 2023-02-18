@@ -38,7 +38,6 @@ const SchoolSchema = new Schema(
       type: String,
       required: [true, "School code is required"],
     },
-    school_id: String,
     phone_number: {
       type: String,
       minlength: [1, "Cannot be less than 1 character"],
@@ -64,12 +63,6 @@ const SchoolSchema = new Schema(
     logo: {
       type: String,
       default: "no-logo.png",
-    },
-    plan: {
-      type: String,
-      required: true,
-      default: "STARTER",
-      enum: ["STARTER", "PRO", "ENTERPRISE"],
     },
     careers: {
       // Array of strings
@@ -162,20 +155,6 @@ const SchoolSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    // number_of_students: {
-    //   type: Number,
-    //   required: [true, "Number of students are required"],
-    // },
-    // teacher_strength: {
-    //   type: Number,
-    //   required: [true, "Number of teachers are required"],
-    // },
-    school_rating: {
-      // Can rate between `1 to 5` 5 being the highest
-      type: Number,
-      min: 1,
-      max: 5,
-    },
     school_type: {
       // Available only if `school_type` value is `boarding`
       type: String,
@@ -209,15 +188,26 @@ const SchoolSchema = new Schema(
       default: Date.now,
     },
     school_location: {
-      lat: {
-        type: Number,
-        // index: "2dsphere",
+      // GeoJSON Point
+      type: {
+        type: String,
+        enum: ["Point"],
       },
-      long: {
-        type: Number,
-        // index: "2dsphere",
+      cordinates: {
+        type: [Number],
+        index: "2dsphere",
       },
     },
+    // school_location: {
+    //   lat: {
+    //     type: Number,
+    //     // index: "2dsphere",
+    //   },
+    //   long: {
+    //     type: Number,
+    //     // index: "2dsphere",
+    //   },
+    // },
     brochure_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Brochure",

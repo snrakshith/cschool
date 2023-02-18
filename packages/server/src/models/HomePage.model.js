@@ -2,38 +2,25 @@ const { Schema, default: mongoose } = require("mongoose");
 
 const HomePageSchema = new Schema(
   {
-    layout_info: {
-      name: {
-        type: String,
-        required: [true, "name is required"],
-        enum: ["School"],
-      },
-      position: {
-        type: Number,
-        required: true,
-      },
-      slot_number: {
-        type: Number,
-        required: true,
-      },
-      go_to: {
-        type: String,
-        required: true,
-      },
-      assets: {
-        images: {
-          type: String,
-          required: true,
-        },
-        videos: {
-          type: String,
-          required: true,
-        },
-      },
-    },
-    type: {
+    name: {
       type: String,
       required: [true, "name is required"],
+      enum: ["School", "Exam", "SDP"],
+    },
+    description: {
+      type: String,
+      maxLength: [100, "Cannot be more than 50 words"],
+      required: [true, "description is required"],
+    },
+    assets: {
+      images: {
+        type: [String],
+        // required: true,
+      },
+    },
+    card_type: {
+      type: String,
+      required: [true, "card type is required"],
       enum: ["normal", "mini", "mega"],
     },
   },

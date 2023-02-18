@@ -11,7 +11,7 @@
     "packages/*"
   ],
   "scripts": {
-    "pack-gen": "plop",
+    "gen-feat": "plop",
     "prepare": "husky install",
     "build": "lerna run build",
     "watch": "lerna run watch --parallel",

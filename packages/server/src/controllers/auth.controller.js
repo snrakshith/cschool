@@ -47,7 +47,7 @@ exports.loginUser = async (req, res, next) => {
     return res.status(201).json({
       status: true,
       message: "logged in..",
-      data: { accessToken, refreshToken },
+      data: { accessToken, refreshToken, user },
     });
   } catch (error) {
     if (error.isJoi === true) error.status = 422;

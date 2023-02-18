@@ -1,8 +1,8 @@
-const {{name}} = require("./{{name}}.model");
+const MiscCategory = require("./MiscCategory.model");
 
-exports.getAll{{name}} = async (req, res, next) => {
+exports.getAllMiscCategory = async (req, res, next) => {
   try {
-    const data = await {{name}}.find();
+    const data = await MiscCategory.find();
     return res.status(201).json({
       status: true,
       data,
@@ -17,7 +17,7 @@ exports.getAll{{name}} = async (req, res, next) => {
   }
 };
 
-exports.create{{name}} = async (req, res, next) => {
+exports.createMiscCategory = async (req, res, next) => {
   try {
     const { name } = req.body;
 
@@ -34,11 +34,10 @@ exports.create{{name}} = async (req, res, next) => {
     }
 
 
-    const {{name}}Data = {
+    const MiscCategoryData = {
 
     };
-    {{!-- const data = await School.create(schoolData); --}}
-    const data = await {{name}}.create({{name}}Data);
+    const data = await MiscCategory.create(MiscCategoryData);
     await data.save();
     return res.status(201).json({
       status: true,
