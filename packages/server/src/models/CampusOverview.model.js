@@ -4,6 +4,11 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const CampusOverviewSchema = new Schema({
+  school: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "School",
+    required: [true, "School id is required"],
+  },
   transportation: {
     type: Boolean,
     default: true,

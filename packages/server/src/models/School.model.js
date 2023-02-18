@@ -26,17 +26,32 @@ const SchoolSchema = new Schema(
       trim: true,
       required: [true, "Name is required"],
     },
-    school_id: String,
+    moto: {
+      type: String,
+      required: true,
+    },
+    website: {
+      type: String,
+      required: [true, "Website is required"],
+    },
+    code: {
+      type: String,
+      required: [true, "School code is required"],
+    },
     phone_number: {
       type: String,
       minlength: [1, "Cannot be less than 1 character"],
       maxlength: [10, "Cannot be excede more than 10 character"],
       required: [true, "phone is required"],
     },
+    number: {
+      type: [Number],
+      required: [true, "phone is required"],
+    },
     email: {
       type: String,
       trim: true,
-      unique: [true, "Must be unique"],
+      // unique: [true, "Must be unique"],
       required: [true, "email is required"],
     },
     address: {
@@ -62,6 +77,22 @@ const SchoolSchema = new Schema(
         "Other",
       ],
     },
+    // Array of objects
+    labs: [
+      {
+        _id: false,
+        lab_name: {
+          type: String,
+          enum: ["Physics lab"],
+        },
+      },
+    ],
+    criterias: [
+      {
+        criteriaName: { type: String },
+        criteriaStatus: { type: Boolean, default: true },
+      },
+    ],
     specialization: [
       {
         _id: false,
@@ -77,6 +108,10 @@ const SchoolSchema = new Schema(
             "Dental",
             "Eye",
           ],
+        },
+        languageName: {
+          type: String,
+          enum: ["English", "Kannada"],
         },
       },
     ],
@@ -97,7 +132,6 @@ const SchoolSchema = new Schema(
       required: [true, "Please add the avaiable faliclites"],
       enum: ["library", "food_court", "washroom"],
     },
-    // courses_offered: [
     courses_offered: {
       board: {
         type: String,
@@ -116,25 +150,10 @@ const SchoolSchema = new Schema(
         max: 10,
       },
     },
-    // ],
     scholarship_for_students: {
       //  By default it is false
       type: Boolean,
       default: false,
-    },
-    // number_of_students: {
-    //   type: Number,
-    //   required: [true, "Number of students are required"],
-    // },
-    // teacher_strength: {
-    //   type: Number,
-    //   required: [true, "Number of teachers are required"],
-    // },
-    school_rating: {
-      // Can rate between `1 to 5` 5 being the highest
-      type: Number,
-      min: 1,
-      max: 5,
     },
     school_type: {
       // Available only if `school_type` value is `boarding`
@@ -169,14 +188,29 @@ const SchoolSchema = new Schema(
       default: Date.now,
     },
     school_location: {
-      lat: {
-        type: Number,
-        // index: "2dsphere",
+      // GeoJSON Point
+      type: {
+        type: String,
+        enum: ["Point"],
       },
-      long: {
-        type: Number,
-        // index: "2dsphere",
+      cordinates: {
+        type: [Number],
+        index: "2dsphere",
       },
+    },
+    // school_location: {
+    //   lat: {
+    //     type: Number,
+    //     // index: "2dsphere",
+    //   },
+    //   long: {
+    //     type: Number,
+    //     // index: "2dsphere",
+    //   },
+    // },
+    brochure_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Brochure",
     },
   },
   {

@@ -1,20 +1,5 @@
 const School = require("../models/School.model");
-const { autoSchoolId } = require("../utils/auto_generated");
-// const geocoder = require("../utils/geocoder");
 
-// get list of active schools
-
-// basic info
-// courses_offered
-
-/**
- *  @access Public
- *  @description details by school id
- */
-
-// getAllSchools
-
-// /api/v1/school/all
 exports.getAllSchools = async (req, res, next) => {
   try {
     const allSchools = await School.find();
@@ -32,6 +17,31 @@ exports.getAllSchools = async (req, res, next) => {
     });
   }
 };
+
+exports.getSchoolById = async (req, res, next) => {
+  try {
+    // const school = await School.findById(req.params.schoolId);
+    // const school = await School.findById(req.body.schoolId);
+    // const school = await School.findById(req.query.schoolId);
+
+    const schoolId = req.query.schoolId;
+    // const school = await School.find({ schoolId });
+    const school = await School.find({ schoolId });
+
+    return res?.status(200).json({
+      status: true,
+      data: school,
+    });
+  } catch (error) {
+    console.error(error);
+    return res?.status(404).json({
+      // message: "Failed to get data",
+      message: error.message,
+      status: false,
+    });
+  }
+};
+
 exports.getAllAuthors = async (req, res, next) => {
   const { page_limit, page } = req.query;
   try {
@@ -51,85 +61,129 @@ exports.getAllAuthors = async (req, res, next) => {
 };
 
 exports.onboardNewSchool = async (req, res, next) => {
-  const { name, email, phone_number, languages } = req.body;
-  // const { logo } = req.file;
-  // const imageMimetype = req.file.mimetype.split("/");
-  // const extenstion = "." + imageMimetype[1];
-
-  if (!name) {
-    return res
-      .status(400)
-      .json({ status: false, message: "School name is missing" });
-  }
-
-  if (!email) {
-    return res.status(400).json({ status: false, message: "email is missing" });
-  }
   try {
-    console.log(req.body);
+    const { name, email, phone_number, languages, moto, code, website, labs } =
+      req.body;
+
+    const missingList = [];
+
+    if (!name) {
+      missingList.push("name");
+    }
+    if (!phone_number) {
+      missingList.push("phone_number");
+    }
+    if (!email) {
+      missingList.push("email");
+    }
+    if (missingList.length > 0) {
+      return res
+        .status(400)
+        .json({ status: false, message: `${missingList} is missing` });
+    }
+
     const facilities = [];
     const facility = [];
+
+    // if (req.body.facilities != null) {
+    //   const facilitiesFields = req.body.facilities.split(",");
+    //   for (const row of facilitiesFields) {
+    //     facilities.push(row);
+    //   }
+    // }
+    // if (req.body.facility != null) {
+    //   const facilityFields = req.body.facility.split(",");
+    //   for (const row of facilityFields) {
+    //     const payload = { facilityCode: row };
+    //     facility.push(payload);
+    //   }
+    // }
+    // if (req.body.specialization != null) {
+    //   const specializationFields = req.body.specialization.split(",");
+    //   for (const row of specializationFields) {
+    //     // console.log(row);
+    //     const payload = { specializationName: row, languageName: row };
+    //     specialization.push(payload);
+    //   }
+    // }
     const specialization = [];
-    if (req.body.facilities != null) {
-      const facilitiesFields = req.body.facilities.split(",");
-      for (const row of facilitiesFields) {
-        // const items = { facilityCode: row };
-        facilities.push(row);
+    console.log("specializationFields", req?.body);
+    if (req.body.specialization) {
+      if (req.body.specialization?.length > 0) {
+        req.body.specialization?.map((item) => {
+          specialization.push({
+            specializationName: item.specializationName,
+            languageName: item.languageName,
+          });
+        });
       }
     }
-    if (req.body.facility != null) {
-      const facilityFields = req.body.facility.split(",");
-      for (const row of facilityFields) {
-        const items = { facilityCode: row };
-        facility.push(items);
+
+    const criterias = [];
+    if (req.body.criterias) {
+      if (req.body.criterias.length > 0) {
+        req.body.criterias.map((eachCriteria) => {
+          criterias.push({
+            criteriaName: eachCriteria.criteriaName,
+          });
+        });
       }
     }
-    if (req.body.specialization != null) {
-      const specializationFields = req.body.specialization.split(",");
-      for (const row of specializationFields) {
-        const items = { specializationName: row };
-        specialization.push(items);
-      }
-    }
-    const points = {
-      lat: req.body.lat ? req.body.lat : "",
-      long: req.body.long ? req.body.long : "",
-    };
-    const schoolData = {
+
+    // const number = [];
+
+    // if (req.body?.number !== null) {
+    //   const numbers = req.body?.number.split(",");
+    //   for (let item of numbers) {
+    //     number.push(item);
+    //   }
+    // }
+
+    // const labs = [];
+
+    // if (req.body?.labs !== null) {
+    //   const labData = req.body?.labs?.split(",");
+    //   for (let item of labData) {
+    //     const payload = { lab_name: item };
+    //     labs.push(payload);
+    //   }
+    // }
+
+    const schoolData = new School({
       name,
-      email,
       phone_number,
       languages,
       specialization,
-      facility,
-      facilities,
-      // Check
-      // points,
-      // "school_location.lat": req.body.lat ? req.body.lat : "",
-      // "school_location.long": req.body.long ? req.body.long : "",
-
-      "courses_offered.board": req.body.board ? req.body.board : "",
-      "courses_offered.eligibility_critery": req.body.eligibility_critery
-        ? req.body.eligibility_critery
-        : "",
-      "courses_offered.class_from": req.body.class_from
-        ? req.body.class_from
-        : "",
-      // logo,
-      // logo: `${req.file.filename}${extenstion}`,
-      // logo: req.file.filename + "." + imageMimetype[1],
-      logo: req?.file?.filename !== "undefined" ? req?.file?.filename : "",
-    };
-    console.log("req.file", req.file);
-    // console.log("test", `${req.file.filename}${extenstion}`);
-    // console.log(req.file.filename + "." + imageMimetype[1]);
-
-    // const data = await School.create(req.body);
-    const data = await School.create(schoolData);
-    console.log(data);
+      email,
+      code,
+      website,
+      moto,
+      labs,
+      // criterias,
+      courses_offered: req.body.courses_offered ? req.body.courses_offered : "",
+      // courses_offered: {
+      //   board: req.body.board ? req.body.board : "",
+      //   eligibility_critery: req.body.eligibility_critery
+      //     ? req.body.eligibility_critery
+      //     : "",
+      //   class_from: req.body.class_from ? req.body.class_from : "",
+      // },
+      communication: req.body.communication ? req.body.communication : "",
+      address: req.body.address ? req.body.address : "",
+      specialization: req.body.specialization ? req.body.specialization : "",
+    });
+    // "courses_offered.board": req.body.board ? req.body.board : "",
+    // "courses_offered.eligibility_critery": req.body.eligibility_critery
+    //   ? req.body.eligibility_critery
+    //   : "",
+    // "courses_offered.class_from": req.body.class_from
+    //   ? req.body.class_from
+    //   : "",
+    // const data = await School.create(schoolData);
+    const data = await School.create(req.body);
     await data.save();
     return res.status(201).json({
-      status: false,
+      status: true,
       message: "Successfully Onboarded",
       data,
     });
@@ -138,29 +192,48 @@ exports.onboardNewSchool = async (req, res, next) => {
     return res.status(500).json({ status: false, message: error.message });
   }
 };
-// @desc      Get bootcamps within a radius
-// @route     GET /api/v1/bootcamps/radius/:zipcode/:distance
-// @access    Private
-exports.getSchoolsInRadius = async (req, res, next) => {
-  const { pincode, distance } = req.params;
 
-  // Get lat/lng from geocoder
-  const loc = await geocoder.geocode(pincode);
-  const lat = loc[0].latitude;
-  const lng = loc[0].longitude;
+// exports.deleteSchool = async (req, res, next) => {
+//   const schoolId = req.params.id;
 
-  // Calc radius using radians
-  // Divide dist by radius of Earth
-  // Earth Radius = 3,963 mi / 6,378 km
-  const radius = distance / 3963;
+//   if (!schoolId)
+//     return res.status(404).json({
+//       status: false,
+//       message: "No school with this id",
+//     });
+//   await School.findByIdAndDelete(schoolId);
+//   try {
+//     res.status(200).json({
+//       message: `Deleted successfully ${schoolId}`,
+//       status: true,
+//     });
+//   } catch (error) {
+//     res.status(404).json({
+//       message: error,
+//       status: true,
+//     });
+//   }
+// };
 
-  const schools = await School.find({
-    location: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
-  });
+exports.deleteSchool = async (req, res, next) => {
+  try {
+    const school = await School.findById(req.body._id);
 
-  res.status(200).json({
-    success: true,
-    count: schools.length,
-    data: schools,
-  });
+    if (!school)
+      return res.status(404).json({
+        status: false,
+        message: "No school with this id",
+      });
+
+    await school.remove();
+    res.status(200).json({
+      message: `Deleted successfully`,
+      status: true,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+      status: false,
+    });
+  }
 };

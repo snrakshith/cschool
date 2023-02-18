@@ -4,34 +4,29 @@ module.exports = function (
 ) {
   // create your generators here
   plop.setGenerator("workspace", {
-    description: "this is a skeleton plopfile",
+    description: "create a new feature",
     prompts: [
       {
         type: "input",
         name: "name",
-        message: "Generate files",
+        message: "Feature name ( posts ) ?",
       },
     ],
     actions: [
       {
         type: "add",
-        path: "packages/server/src/models/{{name}}.model.ts",
+        path: "packages/server/src/features/{{name}}/{{name}}.model.js",
         templateFile: "plop/templates/model.template.hbs",
       },
       {
         type: "add",
-        path: "packages/server/src/controllers/{{name}}.controller.ts",
+        path: "packages/server/src/features/{{name}}/{{name}}.controller.js",
         templateFile: "plop/templates/controller.template.hbs",
       },
       {
         type: "add",
-        path: "packages/server/src/routes/{{name}}.routes.ts",
+        path: "packages/server/src/features/{{name}}/{{name}}.routes.js",
         templateFile: "plop/templates/route.template.hbs",
-      },
-      {
-        type: "add",
-        path: "packages/server/src/middlewares/{{name}}.ts",
-        templateFile: "plop/templates/middleware.template.hbs",
       },
     ],
   });
