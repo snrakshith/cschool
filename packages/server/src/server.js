@@ -43,6 +43,7 @@ const schoolRoute = require("./routes/school.routes");
 const homepageRoute = require("./routes/homepage.routes");
 const glanceRoute = require("./routes/glance.routes");
 const miscRoute = require("./routes/misc.routes");
+const mediaRoute = require("./features/media/media.routes");
 
 // API Routes
 app.use("/api/v1/auth", authRoute);
@@ -50,6 +51,7 @@ app.use("/api/v1/homepage", homepageRoute);
 app.use("/api/v1/school", schoolRoute);
 app.use("/api/v1/glance", glanceRoute);
 app.use("/api/v1/misc", miscRoute);
+app.use("/api/v1/media", mediaRoute);
 
 // Test route
 

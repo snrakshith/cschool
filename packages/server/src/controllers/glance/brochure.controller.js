@@ -63,6 +63,14 @@ exports.getBrochureById = async (req, res, next) => {
   try {
     const { brochure_id } = req.body;
     const brochure = await Brochure.findById({ _id: brochure_id });
+
+    if (!brochure) {
+      return res.status(500).json({
+        status: true,
+        message: `Brochure ${brochure_id} with this id is not found`,
+      });
+    }
+
     // const brochure = await Brochure.findById({ _id: brochure_id }).select("");
     // const brochure = await Brochure.findById({ _id: brochure_id }).populate({
     //   path: "school",
@@ -96,6 +104,40 @@ exports.getBrochureBySchoolId = async (req, res, next) => {
 
     // Finds a records by Id
     // const brochure = await Brochure.findById({ school: school_id });
+
+    res.status(200).json({
+      data: brochure,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: true,
+      message: error.message,
+    });
+  }
+};
+
+exports.updateBrochureById = async (req, res, next) => {
+  try {
+    const { brochure_id, published_date, link, topic } = req.body;
+    const checkbrochure = await Brochure.findById({ _id: brochure_id });
+
+    if (!checkbrochure) {
+      return res.status(500).json({
+        status: true,
+        message: `Brochure ${brochure_id} with this id is not found`,
+      });
+    }
+
+    // Finds a records by Id
+    const filterFields = { _id: brochure_id };
+    const updateFields = { published_date, link, topic };
+    const options = { new: true };
+
+    const brochure = await Brochure.findByIdAndUpdate(
+      filterFields,
+      updateFields,
+      options
+    );
 
     res.status(200).json({
       data: brochure,

@@ -7,12 +7,14 @@ const {
   getAllBrochure,
   getBrochureById,
   getBrochureBySchoolId,
+  updateBrochureById,
 } = require("../controllers/glance/brochure.controller");
 
 router.post("/brochure/create-brochure", createBrochure);
 router.get("/brochure/get-brochure", getBrochureById);
 router.get("/brochure/get-all-brochure", getAllBrochure);
 router.get("/brochure/get-school-brochure", getBrochureBySchoolId);
+router.patch("/brochure/update-brochure", updateBrochureById);
 
 // ------------- Reviews ------------ //
 
