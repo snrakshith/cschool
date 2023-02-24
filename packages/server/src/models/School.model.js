@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { default: slugify } = require("slugify");
 const { Schema } = mongoose;
+const geocoder = require("../utils/geocoder");
 
 const CourseSchema = new Schema({
   board: {
@@ -218,8 +219,22 @@ const SchoolSchema = new Schema(
   }
 );
 
+// mongoose middleware that runs before saving it into db
 SchoolSchema.pre("save", function (next) {
   this.school_id = slugify(this.name, { lower: true });
+  next();
+});
+
+// mongoose middleware that runs before saving it into db
+
+SchoolSchema.pre("save", async function (next) {
+  const location = geocoder.geocode(this.address);
+
+  this.school_location = {};
+
+  // don't save address to db
+  this.address = undefined;
+
   next();
 });
 
