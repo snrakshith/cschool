@@ -6,6 +6,9 @@ dotenv.config({
   path: path.resolve(`./environments/.env.${process.env.NODE_ENV}`),
 });
 
+// Load modals
+const School = require("./src/models/School.model");
+
 const mongoOptions = {
   dbName: process.env.DB_NAME,
   useUnifiedTopology: true,
@@ -14,17 +17,28 @@ const mongoOptions = {
 // db connection
 mongoose.connect(process.env.MONGODB_URI, mongoOptions);
 
+// Read JSON files
+const schools = JSON.parse(
+  fs.readFileSync(`${__dirname}/src/db/schools.json`, "utf-8")
+);
+
 // import data
-const importData = () => {
+const importData = async () => {
   try {
+    await School.create(schools);
+    console.log("Data Imported...".green.inverse);
+    process.exit();
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
 // delete data
-const deleteData = () => {
+const deleteData = async () => {
   try {
+    await School.deleteMany();
+    console.log("Data Destroyed...".red.inverse);
+    process.exit();
   } catch (error) {
     console.log(error);
   }

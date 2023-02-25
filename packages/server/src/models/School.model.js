@@ -209,13 +209,15 @@ const SchoolSchema = new Schema(
     //     // index: "2dsphere",
     //   },
     // },
-    brochure_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Brochure",
-    },
+    // brochure_id: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "Brochure",
+    // },
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 
@@ -236,6 +238,21 @@ SchoolSchema.pre("save", async function (next) {
   this.address = undefined;
 
   next();
+});
+
+// Cascade delete brochure when a School is deleted
+SchoolSchema.pre("remove", async function (next) {
+  console.log(`Brochures being removed from school ${this._id}`);
+  await this.model("Brochure").deleteMany({ school_id: this._id });
+  next();
+});
+
+// Reverse populate with virtuals
+SchoolSchema.virtual("brochure", {
+  ref: "Brochure",
+  localField: "_id",
+  foreignField: "brochure",
+  justOne: false,
 });
 
 module.exports = mongoose.model("School", SchoolSchema);
