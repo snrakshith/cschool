@@ -1,33 +1,59 @@
-module.exports = function (
-  /** @type {import('plop').NodePlopAPI} */
-  plop
-) {
-  // create your generators here
-  plop.setGenerator("workspace", {
-    description: "create a new feature",
+const capitalize = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+const camelCase = (str) => {
+  return str.replace(/[-_](\w)/g, (_, c) => c.toUpperCase());
+};
+
+const workspaces = ["components", "hooks", "utilities", "integrations"];
+
+/**
+ * @param {import("plop").NodePlopAPI} plop
+ */
+module.exports = function main(plop) {
+  plop.setHelper("capitalize", (text) => {
+    return capitalize(camelCase(text));
+  });
+
+  plop.setGenerator("component", {
+    description: "Generates a component package",
     prompts: [
       {
         type: "input",
-        name: "name",
-        message: "Feature name ( posts ) ?",
+        name: "componentName",
+        message: "Enter component name:",
+      },
+      {
+        type: "input",
+        name: "description",
+        message: "The description of this component:",
+      },
+      {
+        type: "list",
+        name: "outDir",
+        message: "where should this component or package live?",
+        default: "packages",
+        choices: workspaces,
       },
     ],
-    actions: [
-      {
-        type: "add",
-        path: "packages/server/src/features/{{name}}/{{name}}.model.js",
-        templateFile: "plop/templates/model.template.hbs",
-      },
-      {
-        type: "add",
-        path: "packages/server/src/features/{{name}}/{{name}}.controller.js",
-        templateFile: "plop/templates/controller.template.hbs",
-      },
-      {
-        type: "add",
-        path: "packages/server/src/features/{{name}}/{{name}}.routes.js",
-        templateFile: "plop/templates/route.template.hbs",
-      },
-    ],
+    actions(answers) {
+      const actions = [];
+
+      if (!answers) return actions;
+
+      const { componentName, description, outDir } = answers;
+
+      actions.push({
+        type: "addMany",
+        templateFiles: "plop/component/**",
+        destination: `./packages/{{outDir}}/{{dashCase componentName}}`,
+        base: "plop/component",
+        data: { description, componentName, outDir },
+        abortOnFail: true,
+      });
+
+      return actions;
+    },
   });
 };

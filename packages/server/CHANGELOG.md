@@ -1,5 +1,17 @@
 # @cschool/server
 
+## 0.3.1
+
+### Patch Changes
+
+- update package
+
+## 0.3.0
+
+### Minor Changes
+
+- add new feature
+
 ## 0.2.1
 
 ### Patch Changes
