@@ -11,6 +11,7 @@
     "packages/*"
   ],
   "scripts": {
+    "create:pkg": "plop component",
     "generate-feat": "plop",
     "prepare": "husky install",
     "build": "lerna run build",
@@ -21,12 +22,17 @@
     "fix": "eslint .",
     "test": "jest",
     "changeset": "changeset",
-    "version-packages": "changeset version",
+    "version": "changeset version",
     "release": "changeset publish",
     "test-changes": "lerna run test --since HEAD~1",
     "api": "set NODE_ENV=local&&lerna run local --scope @cschool/server",
     "web": "lerna run start --scope @cschool/client --stream",
-    "exec": "lerna exec"
+    "exec": "lerna exec",
+    "//comment":"",
+    "nuke": "echo 'Removing all node_modules, builds and lockfiles';\n -------- \n npm run nuke:node_modules;\n npm run nuke:builds;\n npm run nuke:lockfiles;",
+    "nuke:builds": "lerna exec -- rm -rf dist && lerna exec -- rm -rf .next && lerna exec -- rm -rf build",
+    "nuke:lockfiles": "lerna exec --ignore @refinedev/codemod -- rm -rf package-lock.json && lerna exec --ignore @refinedev/codemod -- rm -rf yarn.lock && lerna exec --ignore @refinedev/codemod -- rm -rf pnpm-lock.yaml",
+    "nuke:node_modules": "lerna clean --yes"
   },
   "keywords": [
     "Backend",

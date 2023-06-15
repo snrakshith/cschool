@@ -1,5 +1,11 @@
 # @cschool/server
 
+## 0.3.2
+
+### Patch Changes
+
+- update file
+
 ## 0.3.1
 
 ### Patch Changes
